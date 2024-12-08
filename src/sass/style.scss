@@ -104,11 +104,13 @@ body {
 .tip-btn {
 	color: var(--white);
 	font-size: 2.4rem;
-	&:focus {
-		outline: none;
-		background-color: var(--strong-cyan);
-		color: var(--very-dark-cyan);
-	}
+}
+
+.active,
+.tip-btn:focus {
+	outline: none;
+	background-color: var(--strong-cyan);
+	color: var(--very-dark-cyan);
 }
 
 .btns {

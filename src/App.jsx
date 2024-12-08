@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { nanoid } from 'nanoid'
 import { tipBtns, containerData } from './data'
 
@@ -6,11 +6,16 @@ const App = () => {
 	const [inputs, setInputs] = useState({
 		bill: '',
 		people: '',
+		tip: '',
+		custom: '',
 	})
+	const refTipData = useRef(null)
+
 	const [billValue, setBillValue] = useState('')
 	const [billError, setBillError] = useState(false)
 	const [peopleValue, setPeopleValue] = useState('')
-	const [tipValue, setTipValue] = useState('')
+	const [activeButton, setActiveButton] = useState(null)
+	const [tipValue, setTipValue] = useState(null)
 	const [customValue, setCustomValue] = useState('')
 	const [error, setError] = useState(false)
 
@@ -49,8 +54,13 @@ const App = () => {
 		setInputs({ ...inputs, people: input })
 	}
 
-	const handleTip = value => {
-		console.log(value);
+	const handleTip = (value, index) => {
+		setTipValue(value)
+		setActiveButton(index)
+	}
+
+	const handleBlur = () => {
+		setActiveButton(null)
 	}
 
 	const handleCustomTip = e => {
@@ -90,15 +100,17 @@ const App = () => {
 						<label htmlFor='tip' className='mini-title'>
 							Select Tip %
 						</label>
-						<div className='btns'>
-							{tipBtns.map(({ value, text }) => {
+						<div className='btns' ref={refTipData}>
+							{tipBtns.map(({ value, text }, index) => {
 								return (
 									<button
-										className='tip-btn'
+										className={`tip-btn ${
+											activeButton === index ? 'active' : ''
+										}`}
 										key={nanoid()}
 										value={value}
-										onClick={() => handleTip(value)}
-										>
+										onClick={() => handleTip(value, index)}
+										onBlur={handleBlur}>
 										{text}%
 									</button>
 								)
@@ -108,6 +120,7 @@ const App = () => {
 								className='input tip-input'
 								id='tip'
 								placeholder='Custom'
+								name='custom'
 							/>
 						</div>
 					</div>
@@ -145,7 +158,7 @@ const App = () => {
 									<h2 className='left-up-text'>{upText}</h2>
 									<p className='left-down-text'>/ person</p>
 								</div>
-								<p className='price'>$0.00</p>
+								<p className='price'>${tipValue}</p>
 							</div>
 						)
 					})}
