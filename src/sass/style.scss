@@ -1,0 +1,202 @@
+@use './utilities/index' as *;
+
+:root {
+	--strong-cyan: #26c0ab;
+	--very-dark-cyan: #00494d;
+	--dark-grayish-cyan: #5e7a7d;
+	--grayish-cyan: #7f9c9f;
+	--light-grayish-cyan: #c5e4e7;
+	--very-light-grayish-cyan: #f4fafa;
+	--white: #ffffff;
+}
+
+body {
+	margin-top: 2em;
+	display: grid;
+	place-items: center;
+	font-size: 16px;
+	font-family: 'Space Mono', monospace;
+	background-color: var(--light-grayish-cyan);
+}
+
+/* ----------------------------------------------
+   Section: Header
+---------------------------------------------- */
+
+.header {
+	display: block;
+	margin: 0 auto;
+	width: 9em;
+	overflow-wrap: break-word;
+}
+
+.header-title {
+	text-transform: uppercase;
+	color: var(--dark-grayish-cyan);
+	letter-spacing: 0.4em;
+	font-weight: 600;
+}
+
+/* ----------------------------------------------
+   Section: Main
+---------------------------------------------- */
+
+.main {
+	margin-top: 2em;
+	padding: 1.8em;
+	width: 100vw;
+	max-width: 375px;
+	background-color: var(--white);
+	border-radius: 1.5em;
+}
+
+.mini-title {
+	display: block;
+	margin: 0.6em 0;
+	font-size: 1.3rem;
+	font-weight: 600;
+	color: var(--dark-grayish-cyan);
+}
+
+.input-container,
+.btns {
+	margin-bottom: 1.5em;
+}
+
+.input-container {
+	padding: 0.3em 0.7em;
+	display: grid;
+	grid-template-columns: 0.1fr 0.9fr;
+	align-items: center;
+	border: 2px solid transparent;
+	border-radius: 0.3em;
+	background-color: var(--very-light-grayish-cyan);
+
+	&:has(.input:focus) {
+		border: 2px solid var(--strong-cyan);
+	}
+}
+
+.input-dollar {
+	color: var(--grayish-cyan);
+	font-size: 24px;
+}
+
+.input {
+	padding: 0 1em;
+	background-color: transparent;
+	border: none;
+	text-align: right;
+	outline: none;
+	font-size: 2.1rem;
+	font-weight: 700;
+	color: var(--very-dark-cyan);
+}
+
+.tip-input,
+.tip-btn {
+	padding: 0.3em 0;
+	background-color: var(--very-dark-cyan);
+	width: 47%;
+	border-radius: 0.3em;
+}
+
+.tip-btn {
+	color: var(--white);
+	font-size: 2.4rem;
+	&:focus {
+		background-color: var(--strong-cyan);
+		color: var(--very-dark-cyan);
+	}
+}
+
+.btns {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: 1em;
+	border: 2px solid transparent;
+
+	.input {
+		padding: 0;
+		background-color: var(--very-light-grayish-cyan);
+		color: #00494d;
+		text-align: center;
+
+		&:focus {
+			border: 2px solid var(--strong-cyan);
+		}
+	}
+}
+
+.people-title-box {
+	display: flex;
+	justify-content: space-between;
+}
+
+.people-error {
+	color: tomato;
+}
+
+.people-error-border {
+	border: 2px solid tomato;
+}
+
+.second-box {
+	padding: 1.3em;
+	border-radius: 0.8em;
+	background-color: var(--very-dark-cyan);
+}
+
+.left-container,
+.container {
+	display: flex;
+}
+
+.left-container {
+	flex-direction: column;
+}
+
+.container {
+	margin-bottom: 1.5em;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.left-up-text {
+	color: var(--very-light-grayish-cyan);
+	font-size: 1.6rem;
+	font-weight: 400;
+	letter-spacing: 0.05em;
+}
+
+.left-down-text {
+	color: var(--grayish-cyan);
+	font-size: 1.3rem;
+}
+
+.price {
+	font-size: 2.8rem;
+	font-weight: 700;
+	color: var(--strong-cyan);
+}
+
+.reset-btn {
+	margin-top: 1.5em;
+	padding: 0.3em 0;
+	display: block;
+	width: 100%;
+	font-size: 2.2rem;
+	font-weight: 700;
+	border-radius: 0.5em;
+	text-transform: uppercase;
+	color: var(--very-dark-cyan);
+	background-color: var(--strong-cyan);
+}
+// - Mobile: 375px
+// - Desktop: 1440px
+
+// - Font size (form inputs): 24px
+
+// - Family: [Space Mono](https://fonts.google.com/specimen/Space+Mono)
+// - Weights: 700

@@ -1,0 +1,139 @@
+@mixin main-boxes-style {
+	padding: 1.5em;
+	background-color: white;
+	border-radius: 0.5em;
+	border: 1px solid rgb(231, 231, 231);
+}
+
+@mixin box-title {
+	margin-bottom: 1.5em;
+	font-size: 1.8rem;
+	text-align: left;
+}
+
+@mixin box-text {
+	margin-bottom: 2em;
+	color: var(--dark-gray);
+	font-size: 1.355rem;
+	line-height: 1.9;
+}
+
+@mixin box-inner {
+	margin-bottom: 1.6em;
+	padding: 1.5em;
+	border: 1px solid rgb(222, 222, 222);
+	border-radius: 0.5em;
+	&:last-child {
+		margin-bottom: 0;
+		position: relative;
+		z-index: 0;
+		&::before {
+			position: absolute;
+			content: '';
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			background-color: rgba(255, 255, 255, 0.6);
+			z-index: 10;
+		}
+		.last-box-inner-left-btn {
+			background-color: rgb(182, 182, 182);
+		}
+	}
+}
+
+@mixin title-label {
+	margin-bottom: 0.8em;
+	font-size: 1.4rem;
+	font-weight: bolder;
+}
+
+@mixin pledge-span {
+	margin-bottom: 1.7em;
+	color: var(--moderate-cyan);
+	font-size: 1.4rem;
+	font-weight: 700;
+}
+
+@mixin text {
+	margin-bottom: 2em;
+	color: var(--dark-gray);
+	font-size: 1.36rem;
+	line-height: 1.7;
+	font-weight: 500;
+}
+
+@mixin inner-left {
+	margin-bottom: 1.7em;
+	display: flex;
+	align-items: center;
+	column-gap: 0.6em;
+}
+
+@mixin left-price {
+	font-size: 3rem;
+	font-weight: 700;
+}
+
+@mixin left-text {
+	color: var(--dark-gray);
+	font-size: 1.4rem;
+	font-weight: 500;
+}
+
+@mixin click-btn {
+	padding: 1em 2em;
+	background-color: var(--moderate-cyan);
+	color: white;
+	font-size: 1.6rem;
+	font-weight: 500;
+	border-radius: 2em;
+}
+
+@mixin modal-complete {
+	display: none;
+	position: absolute;
+	top: 20%;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 86.7%;
+	z-index: 100;
+}
+
+@mixin modal-input {
+	display: inline-block;
+	appearance: none;
+	width: 1.7em;
+	height: 1.7em;
+	color: rgb(222, 222, 222);
+	border: 0.1em solid rgb(222, 222, 222);
+	border-radius: 50%;
+	transform: translateY(0.125rem);
+	cursor: pointer;
+
+	&:checked {
+		background-color: rgb(222, 222, 222);
+		box-shadow: inset -0.005rem -0.005rem 0 0.3rem white;
+	}
+}
+
+@mixin width {
+	width: 44.43em;
+	margin: 0 auto;
+}
+
+@mixin btn-transition {
+	transition: background-color 0.2s;
+
+	&:hover,
+	&:focus {
+		background-color: var(--dark-cyan);
+	}
+}
+
+@mixin box-wrapper {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
