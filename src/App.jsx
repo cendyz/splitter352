@@ -3,6 +3,42 @@ import { nanoid } from 'nanoid'
 import { tipBtns, containerData } from './data'
 
 const App = () => {
+	const [bill, setBill] = useState('')
+	const [people, setPeople] = useState('')
+	const [error, setError] = useState(false)
+
+	const handleBill = e => {
+		let input = e.target.value
+		input = input.replace(/[^0-9.]/g, '')
+
+		// const parts = input.split('.')
+		// if (parts.length > 2) {
+		// 	input = parts[0] + '.' + parts[1].substring(0, 2)
+		// } else if (parts.length === 2) {
+		// 	input = parts[0] + '.' + parts[1].substring(0, 2)
+		// }
+
+		// let num = parseInt(input)
+		// console.log(num);
+
+		setBill(input)
+		
+	}
+
+	const handlePeople = e => {
+		let input = e.target.value
+		input = input.replace(/[^0-9]/g, '')
+
+		let inputNum = parseInt(input)
+		if (inputNum <= 0) {
+			setError(true)
+		} else {
+			setError(false)
+		}
+
+		setPeople(input)
+	}
+
 	return (
 		<>
 			<header className='header'>
@@ -16,7 +52,15 @@ const App = () => {
 						</label>
 						<div className={'input-container'}>
 							<span className='input-dollar'>$</span>
-							<input type='text' className='input' id='bill' />
+							<input
+								type='text'
+								className='input'
+								id='bill'
+								value={bill}
+								onChange={handleBill}
+								placeholder='0'
+							
+							/>
 						</div>
 					</div>
 					<div className='inner-second'>
@@ -43,13 +87,28 @@ const App = () => {
 						</div>
 					</div>
 					<div className='inner-three'>
-						<label htmlFor='people' className='mini-title people-title-box'>
+						<label
+							htmlFor='people'
+							className='mini-title people-title-box'>
 							Number of People
-							{/* <span className="people-error">Can't be zero</span> */}
+							{error && (
+								<span className='people-error'>Can't be zero</span>
+							)}
 						</label>
-						<div className='input-container'>
+						<div
+							className={
+								error
+									? 'input-container people-error-border'
+									: 'input-container '
+							}>
 							<img src='src/images/icon-person.svg' alt='Person icon' />
-							<input type='text' className='input' id='bill' />
+							<input
+								type='text'
+								className={error ? 'input error-input' : 'input'}
+								id='bill'
+								onChange={handlePeople}
+								placeholder='0'
+							/>
 						</div>
 					</div>
 				</section>

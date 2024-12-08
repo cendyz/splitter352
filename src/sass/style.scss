@@ -105,6 +105,7 @@ body {
 	color: var(--white);
 	font-size: 2.4rem;
 	&:focus {
+		outline: none;
 		background-color: var(--strong-cyan);
 		color: var(--very-dark-cyan);
 	}
@@ -138,7 +139,8 @@ body {
 	color: tomato;
 }
 
-.people-error-border {
+.people-error-border,
+.input-container:has(.error-input:focus) {
 	border: 2px solid tomato;
 }
 
@@ -189,9 +191,15 @@ body {
 	font-size: 2.2rem;
 	font-weight: 700;
 	border-radius: 0.5em;
+	border: 2px solid transparent;
 	text-transform: uppercase;
 	color: var(--very-dark-cyan);
 	background-color: var(--strong-cyan);
+
+	&:focus {
+		outline: none;
+		border: 2px solid var(--light-grayish-cyan);
+	}
 }
 // - Mobile: 375px
 // - Desktop: 1440px
