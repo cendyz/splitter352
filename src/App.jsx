@@ -1,28 +1,38 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { nanoid } from 'nanoid'
 import { tipBtns, containerData } from './data'
 
 const App = () => {
-	const [bill, setBill] = useState('')
-	const [people, setPeople] = useState('')
+	const [inputs, setInputs] = useState({
+		bill: '',
+		people: '',
+	})
+	const [billValue, setBillValue] = useState('')
+	const [billError, setBillError] = useState(false)
+	const [peopleValue, setPeopleValue] = useState('')
+	const [tipValue, setTipValue] = useState('')
+	const [customValue, setCustomValue] = useState('')
 	const [error, setError] = useState(false)
 
 	const handleBill = e => {
 		let input = e.target.value
 		input = input.replace(/[^0-9.]/g, '')
+		const parts = input.split('.')
+		if (parts.length > 2) {
+			input = parts[0] + '.' + parts[1]
+		}
 
-		// const parts = input.split('.')
-		// if (parts.length > 2) {
-		// 	input = parts[0] + '.' + parts[1].substring(0, 2)
-		// } else if (parts.length === 2) {
-		// 	input = parts[0] + '.' + parts[1].substring(0, 2)
-		// }
+		if (!isNaN(parseFloat(input)) && isFinite(input)) {
+			setBillValue(parseFloat(input))
+		}
 
-		// let num = parseInt(input)
-		// console.log(num);
+		setInputs({ ...inputs, bill: input })
 
-		setBill(input)
-		
+		if (parseFloat(input) === 0) {
+			setBillError(true)
+		} else {
+			setBillError(false)
+		}
 	}
 
 	const handlePeople = e => {
@@ -36,7 +46,15 @@ const App = () => {
 			setError(false)
 		}
 
-		setPeople(input)
+		setInputs({ ...inputs, people: input })
+	}
+
+	const handleTip = value => {
+		console.log(value);
+	}
+
+	const handleCustomTip = e => {
+		let input = e.target.value
 	}
 
 	return (
@@ -50,16 +68,21 @@ const App = () => {
 						<label htmlFor='bill' className='mini-title'>
 							Bill
 						</label>
-						<div className={'input-container'}>
+						<div
+							className={
+								billError
+									? 'input-container people-error-border '
+									: 'input-container'
+							}>
 							<span className='input-dollar'>$</span>
 							<input
 								type='text'
-								className='input'
+								className={billError ? 'input error-input' : 'input'}
 								id='bill'
-								value={bill}
+								value={inputs.bill}
 								onChange={handleBill}
 								placeholder='0'
-							
+								name='bill'
 							/>
 						</div>
 					</div>
@@ -68,13 +91,15 @@ const App = () => {
 							Select Tip %
 						</label>
 						<div className='btns'>
-							{tipBtns.map(({ value }) => {
+							{tipBtns.map(({ value, text }) => {
 								return (
 									<button
 										className='tip-btn'
-										value={{ value }}
-										key={nanoid()}>
-										{value}%
+										key={nanoid()}
+										value={value}
+										onClick={() => handleTip(value)}
+										>
+										{text}%
 									</button>
 								)
 							})}

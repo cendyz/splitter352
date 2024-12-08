@@ -1,18 +1,23 @@
 export const tipBtns = [
 	{
-		value: 5,
+		text: 5,
+		value: 0.05,
 	},
 	{
-		value: 10,
+		text: 10,
+		value: 0.1,
 	},
 	{
-		value: 15,
+		text: 15,
+		value: 0.15,
 	},
 	{
-		value: 25,
+		text: 25,
+		value: 0.25,
 	},
 	{
-		value: 50,
+		text: 50,
+		value: 0.5,
 	},
 ]
 
