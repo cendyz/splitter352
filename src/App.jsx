@@ -23,6 +23,8 @@ const App = () => {
 	const [activeButton, setActiveButton] = useState(null)
 	const [error, setError] = useState(false)
 
+	const [disabledButton, setDisabledButton] = useState(true)
+
 	const handleBill = e => {
 		let inputBill = e.target.value.replace(/[^0-9.]/g, '')
 		const parts = inputBill.split('.')
@@ -93,22 +95,13 @@ const App = () => {
 		) {
 			const sum = (billValue * tipValue) / peopleValue
 			setAmountPerson(sum.toFixed(2))
+			const sumTotal = billValue / peopleValue + sum
+			setTotal(sumTotal.toFixed(2))
+			setDisabledButton(false)
 		} else {
 			setAmountPerson('0.00')
-		}
-	}
-
-	const handleTotal = () => {
-		if (
-			!isNaN(billValue) &&
-			billValue > 0 &&
-			!isNaN(peopleValue) &&
-			peopleValue > 0
-		) {
-			const sum = billValue / peopleValue
-			setTotal(sum.toFixed(2))
-		} else {
 			setTotal('0.00')
+			setDisabledButton(true)
 		}
 	}
 
@@ -129,7 +122,6 @@ const App = () => {
 
 	useEffect(() => {
 		handleTipAmount()
-		handleTotal()
 	}, [billValue, tipValue, peopleValue])
 
 	return (
@@ -230,7 +222,9 @@ const App = () => {
 							</div>
 						)
 					})}
-					<button className='reset-btn' onClick={handleReset}>
+					<button
+						className={`reset-btn ${disabledButton ? 'disabled-btn' : ''}`}
+						onClick={handleReset}>
 						reset
 					</button>
 				</section>

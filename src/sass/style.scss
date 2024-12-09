@@ -197,11 +197,16 @@ body {
 	text-transform: uppercase;
 	color: var(--very-dark-cyan);
 	background-color: var(--strong-cyan);
-
+	transition: opacity 0.2s;
 	&:focus {
 		outline: none;
 		border: 2px solid var(--light-grayish-cyan);
 	}
+}
+
+.disabled-btn {
+	opacity: 0.1;
+	cursor: default;
 }
 // - Mobile: 375px
 // - Desktop: 1440px
