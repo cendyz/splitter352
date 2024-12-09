@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { nanoid } from 'nanoid'
 import { tipBtns, containerData } from './data'
 
@@ -6,43 +6,71 @@ const App = () => {
 	const [inputs, setInputs] = useState({
 		bill: '',
 		people: '',
-		tip: '',
 		custom: '',
 	})
-	const refTipData = useRef(null)
 
 	const [billValue, setBillValue] = useState('')
 	const [billError, setBillError] = useState(false)
+
+	const [tipValue, setTipValue] = useState('')
+
 	const [peopleValue, setPeopleValue] = useState('')
+
+	const [amountPerson, setAmountPerson] = useState('0.00')
+
+	const [total, setTotal] = useState('0.00')
+
 	const [activeButton, setActiveButton] = useState(null)
-	const [tipValue, setTipValue] = useState(null)
-	const [customValue, setCustomValue] = useState('')
 	const [error, setError] = useState(false)
 
 	const handleBill = e => {
-		let input = e.target.value
-		input = input.replace(/[^0-9.]/g, '')
-		const parts = input.split('.')
+		let inputBill = e.target.value.replace(/[^0-9.]/g, '')
+		const parts = inputBill.split('.')
 		if (parts.length > 2) {
-			input = parts[0] + '.' + parts[1]
+			inputBill = parts[0] + '.' + parts[1]
+		} else if (parts[1]?.length > 2) {
+			inputBill = parts[0] + '.' + parts[1].slice(0, 2)
 		}
 
-		if (!isNaN(parseFloat(input)) && isFinite(input)) {
-			setBillValue(parseFloat(input))
-		}
+		setInputs({ ...inputs, bill: inputBill })
 
-		setInputs({ ...inputs, bill: input })
+		let newNum = parseFloat(inputBill)
 
-		if (parseFloat(input) === 0) {
+		setBillValue(newNum)
+
+		if (parseFloat(inputBill) === 0) {
 			setBillError(true)
 		} else {
 			setBillError(false)
 		}
 	}
 
+	const handleTip = (value, index) => {
+		setTipValue(value)
+		setActiveButton(index)
+	}
+
+	const handleCustomTip = e => {
+		let input = e.target.value.replace(/[^0-9]/g, '')
+		let numInput = parseFloat(input)
+
+		if (isNaN(numInput)) {
+			numInput = ''
+		}
+
+		if (numInput > 100) {
+			numInput = 100
+		}
+
+		const properNum = numInput / 100
+
+		setTipValue(properNum)
+		setInputs({ ...inputs, custom: numInput })
+		setActiveButton(null)
+	}
+
 	const handlePeople = e => {
-		let input = e.target.value
-		input = input.replace(/[^0-9]/g, '')
+		let input = e.target.value.replace(/[^0-9]/g, '')
 
 		let inputNum = parseInt(input)
 		if (inputNum <= 0) {
@@ -52,20 +80,57 @@ const App = () => {
 		}
 
 		setInputs({ ...inputs, people: input })
+
+		setPeopleValue(inputNum)
+	}
+	const handleTipAmount = () => {
+		if (
+			!isNaN(billValue) &&
+			billValue > 0 &&
+			!isNaN(tipValue) &&
+			!isNaN(peopleValue) &&
+			peopleValue > 0
+		) {
+			const sum = (billValue * tipValue) / peopleValue
+			setAmountPerson(sum.toFixed(2))
+		} else {
+			setAmountPerson('0.00')
+		}
 	}
 
-	const handleTip = (value, index) => {
-		setTipValue(value)
-		setActiveButton(index)
+	const handleTotal = () => {
+		if (
+			!isNaN(billValue) &&
+			billValue > 0 &&
+			!isNaN(peopleValue) &&
+			peopleValue > 0
+		) {
+			const sum = billValue / peopleValue
+			setTotal(sum.toFixed(2))
+		} else {
+			setTotal('0.00')
+		}
 	}
 
-	const handleBlur = () => {
+	const handleReset = () => {
+		setInputs({
+			bill: '',
+			people: '',
+			cutsom: '',
+		})
+		setBillValue('')
+		setBillError(false)
+		setTipValue('')
+		setPeopleValue('')
+		setAmountPerson('0.00')
 		setActiveButton(null)
+		setError(false)
 	}
 
-	const handleCustomTip = e => {
-		let input = e.target.value
-	}
+	useEffect(() => {
+		handleTipAmount()
+		handleTotal()
+	}, [billValue, tipValue, peopleValue])
 
 	return (
 		<>
@@ -89,7 +154,7 @@ const App = () => {
 								type='text'
 								className={billError ? 'input error-input' : 'input'}
 								id='bill'
-								value={inputs.bill}
+								value={inputs.bill || ''}
 								onChange={handleBill}
 								placeholder='0'
 								name='bill'
@@ -97,10 +162,10 @@ const App = () => {
 						</div>
 					</div>
 					<div className='inner-second'>
-						<label htmlFor='tip' className='mini-title'>
+						<label htmlFor='custom' className='mini-title'>
 							Select Tip %
 						</label>
-						<div className='btns' ref={refTipData}>
+						<div className='btns'>
 							{tipBtns.map(({ value, text }, index) => {
 								return (
 									<button
@@ -108,9 +173,8 @@ const App = () => {
 											activeButton === index ? 'active' : ''
 										}`}
 										key={nanoid()}
-										value={value}
-										onClick={() => handleTip(value, index)}
-										onBlur={handleBlur}>
+										value={value || ''}
+										onClick={() => handleTip(value, index)}>
 										{text}%
 									</button>
 								)
@@ -118,9 +182,10 @@ const App = () => {
 							<input
 								type='text'
 								className='input tip-input'
-								id='tip'
+								id='custom'
 								placeholder='Custom'
-								name='custom'
+								onChange={handleCustomTip}
+								value={inputs.custom || ''}
 							/>
 						</div>
 					</div>
@@ -143,9 +208,10 @@ const App = () => {
 							<input
 								type='text'
 								className={error ? 'input error-input' : 'input'}
-								id='bill'
+								id='people'
 								onChange={handlePeople}
 								placeholder='0'
+								value={inputs.people || ''}
 							/>
 						</div>
 					</div>
@@ -158,11 +224,15 @@ const App = () => {
 									<h2 className='left-up-text'>{upText}</h2>
 									<p className='left-down-text'>/ person</p>
 								</div>
-								<p className='price'>${tipValue}</p>
+								<p className='price'>
+									${index === 1 ? total : amountPerson}
+								</p>
 							</div>
 						)
 					})}
-					<button className='reset-btn'>reset</button>
+					<button className='reset-btn' onClick={handleReset}>
+						reset
+					</button>
 				</section>
 			</main>
 		</>
