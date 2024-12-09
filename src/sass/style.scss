@@ -77,11 +77,6 @@ body {
 	}
 }
 
-.input-dollar {
-	color: var(--grayish-cyan);
-	font-size: 24px;
-}
-
 .input {
 	padding: 0 1em;
 	background-color: transparent;
@@ -205,13 +200,43 @@ body {
 }
 
 .disabled-btn {
-	opacity: 0.1;
+	opacity: 0.3;
 	cursor: default;
 }
-// - Mobile: 375px
-// - Desktop: 1440px
 
-// - Font size (form inputs): 24px
+@media (min-width: 992px) {
+	.main {
+		max-width: 992px;
+		display: flex;
+		padding: 2em;
+		column-gap: 2em;
+		margin-top: 6em;
+	}
 
-// - Family: [Space Mono](https://fonts.google.com/specimen/Space+Mono)
-// - Weights: 700
+	.tip-btn {
+		transition: background-color .2s, color .2s;
+		&:hover {
+			background-color: var(--strong-cyan);
+			color: var(--very-dark-cyan);
+		}
+	}
+
+	.one-box,
+	.second-box {
+		display: flex;
+		flex-direction: column;
+		width: 50%;
+	}
+
+	.second-box {
+		padding: 3em;
+	}
+
+	.price {
+		font-size: 4.7rem;
+	}
+
+	.reset-btn {
+		margin-top: auto;
+	}
+}

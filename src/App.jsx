@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { nanoid } from 'nanoid'
 import { tipBtns, containerData } from './data'
+import personImg from './images/icon-person.svg'
+import dollarImg from './images/icon-dollar.svg'
 
 const App = () => {
 	const [inputs, setInputs] = useState({
@@ -141,7 +143,7 @@ const App = () => {
 									? 'input-container people-error-border '
 									: 'input-container'
 							}>
-							<span className='input-dollar'>$</span>
+							<img src={dollarImg} alt='Dolar icon' />
 							<input
 								type='text'
 								className={billError ? 'input error-input' : 'input'}
@@ -196,7 +198,7 @@ const App = () => {
 									? 'input-container people-error-border'
 									: 'input-container '
 							}>
-							<img src='src/images/icon-person.svg' alt='Person icon' />
+							<img src={personImg} alt='Person icon' />
 							<input
 								type='text'
 								className={error ? 'input error-input' : 'input'}
